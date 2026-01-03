@@ -33,3 +33,17 @@ def drop_features(df: pd.DataFrame) -> pd.DataFrame:
     Drop metadata or irrelevant columns from the DataFrame.
     """
     return df.drop(columns=METADATA_FEATURES, errors="ignore")
+
+
+def categorize_degree(degree: str) -> str:
+    """
+    Map raw degree values into education level categories.
+    """
+    if pd.isna(degree):
+        return "Missing"
+    degree = degree.strip().upper()
+    if degree.startswith("M") or degree.startswith("P") or degree == "LLM":
+        return "Master or Higher"
+    elif degree.startswith("B") or degree == "LLB":
+        return "Bachelor"
+    return "Secondary Level"
