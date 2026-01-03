@@ -47,3 +47,15 @@ def categorize_degree(degree: str) -> str:
     elif degree.startswith("B") or degree == "LLB":
         return "Bachelor"
     return "Secondary Level"
+
+
+def create_degree_level(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Create an ordered categorical column representing education level.
+    """
+    df["degree_level"] = pd.Categorical(
+        df["degree"].apply(categorize_degree),
+        categories=["Secondary Level", "Bachelor", "Master or Higher"],
+        ordered=True,
+    )
+    return df
