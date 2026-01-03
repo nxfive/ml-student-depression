@@ -8,6 +8,7 @@ from pathlib import Path
 
 import pandas as pd
 
+from .features import BINARY
 from .mapping import DATA_MAPPING
 from .schema import METADATA_FEATURES
 
@@ -71,5 +72,14 @@ def create_cgpa_category(df: pd.DataFrame) -> pd.DataFrame:
             bins=[5.0, 6.0, 7.0, 8.0, 9.0, 10.0],
             labels=["Average", "Above Average", "Good", "Very Good", "Excelent"],
         ),
-        ordered=True
+        ordered=True,
     )
+
+
+def create_binary_column(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Convert binary categorical columns with 'Yes'/'No' values into 0/1 encoding.
+    """
+    for column_name in BINARY:
+        df[column_name] = (df[column_name] == "Yes").astype(int)
+    return df
