@@ -59,3 +59,17 @@ def create_degree_level(df: pd.DataFrame) -> pd.DataFrame:
         ordered=True,
     )
     return df
+
+
+def create_cgpa_category(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Bin CGPA values into ordered categorical performance groups.
+    """
+    df["cgpa_cat"] = pd.Categorical(
+        pd.cut(
+            df["cgpa"],
+            bins=[5.0, 6.0, 7.0, 8.0, 9.0, 10.0],
+            labels=["Average", "Above Average", "Good", "Very Good", "Excelent"],
+        ),
+        ordered=True
+    )
