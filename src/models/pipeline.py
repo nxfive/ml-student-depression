@@ -1,5 +1,5 @@
 from sklearn.compose import ColumnTransformer
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.pipeline import Pipeline
@@ -63,4 +63,20 @@ def create_rf_pipeline() -> Pipeline:
 
     return Pipeline(
         [("preprocessor", preprocessor), ("model", RandomForestClassifier())]
+    )
+
+
+def create_gb_pipeline() -> Pipeline:
+    """
+    Create a scikit-learn Pipeline for Gradient Boosting classification.
+    """
+    preprocessor = ColumnTransformer(
+        [
+            ("rest", "passthrough", NUMERIC + BINARY),
+            ("cat", OneHotEncoder(handle_unknown="ignore"), CATEGORICAL),
+        ]
+    )
+
+    return Pipeline(
+        [("preprocessor", preprocessor), ("model", GradientBoostingClassifier())]
     )
